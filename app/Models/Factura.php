@@ -10,12 +10,12 @@ class Factura extends Model
     use HasFactory;
 
     protected $table = 'factura';
-    protected $primaryKey = 'id_factura';
-    public $incrementing = false; // Importante para IDs personalizados
-    protected $keyType = 'string'; // Tipo de la clave primaria
+    protected $primaryKey = 'id'; // Restauramos id como clave primaria
+    public $incrementing = true; // Auto-incremental habilitado
+    protected $keyType = 'int'; // Tipo integer para la clave primaria
 
     protected $fillable = [
-        'id_factura',
+        'numero_factura', // Nuevo campo
         'descripcion_oferta',
         'precio',
         'descuento',

@@ -5,17 +5,13 @@
     <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet">
     <meta name="author" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <!-- by andres alexander lopez guerra -->
     <link rel="stylesheet" href="{{ asset('resources/css/recibo/estilos.css') }}">
     <script src="{{ asset('lib/html2pdf.bundle.min.js') }}"></script>
     <script src="{{ asset('lib/JsBarcode.all.min.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -43,7 +39,7 @@
                     <tr class="row1">
                         <td class="column4">&nbsp;</td>
                         <td class="column5 style25 s style25" colspan="3" rowspan="2">ORDEN DE RECIBO DE PAGO No.</td>
-                        <td class="column8 style26 s style26" rowspan="2">{{ $factura->id_factura }}</td>
+                        <td class="column8 style26 s style26" rowspan="2">{{ $factura->numero_factura }}</td>
                         <td class="column9">&nbsp;</td>
                         <td class="column10">&nbsp;</td>
                     </tr>

@@ -51,7 +51,7 @@ class FacturaController extends Controller
             }
 
             $factura = new Factura();
-            $factura->id_factura = $facturaData[0];// Asignar el ID personalizado
+            $factura->numero_factura = $facturaData[0];// Asignar el ID personalizado
             $factura->descripcion_oferta = $facturaData[1];
             $factura->precio = $facturaData[2];
             $factura->descuento = $facturaData[3];

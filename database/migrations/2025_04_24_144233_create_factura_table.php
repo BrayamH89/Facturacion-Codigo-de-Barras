@@ -8,7 +8,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('factura', function (Blueprint $table) {
-            $table->string('id_factura', 20)->primary(); // Cambiado a string y como clave primaria
+            $table->increments('id_factura');
+            $table->string('numero_factura', 20)->unique(); // si necesitas otro identificador visible
             $table->string('descripcion_oferta', 150);
             $table->integer('precio');
             $table->integer('descuento');
