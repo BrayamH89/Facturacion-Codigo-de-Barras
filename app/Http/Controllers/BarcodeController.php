@@ -2,35 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Ayeo\Barcode;
 use Carbon\Carbon;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class BarcodeController extends Controller
 {
     const COD_REFERENCIA = '(415)';
-    const COD_EMPRESA ='7709998009653';
-    const COD_RECAUDO ='(8020)';
-    const COD_PAGO ='(3900)';
-    const COD_FECHA_RECAUDO ='(96)';
+    const COD_EMPRESA = '7709998009653';
+    const COD_RECAUDO = '(8020)';
+    const COD_PAGO = '(3900)';
+    const COD_FECHA_RECAUDO = '(96)';
 
     const DIGITOS_ORDEN_PAGO = 15;
     const DIGITOS_VALOR_PAGO = 8;
 
-    function getCode($stringCode){
-        //dd($stringCode);
-        if($stringCode){
-            $codeBuilder = new Barcode\Builder();
-            $codeBuilder->setBarcodeType('gs1-128');
-            $codeBuilder->setWidth(600);
-            $codeBuilder->setHeight(120);
-
-            $codeBuilder->output($stringCode);
-            // $codeBuilder->output('(10)123456(400)11');
-        }
-    }
-
-    public static function setDataFormat($data){
+    // Formatear los datos para el contenido del código de barras
+    public static function setDataFormat($data)
+    {
         $formatStringCode = self::COD_REFERENCIA .
                             self::COD_EMPRESA .
                             self::COD_RECAUDO .
@@ -40,11 +28,18 @@ class BarcodeController extends Controller
                             str_pad($data["total"], self::DIGITOS_VALOR_PAGO, "0", STR_PAD_LEFT) .
                             self::COD_FECHA_RECAUDO .
                             Carbon::now()->format('Ymd');
-        ;
 
         return $formatStringCode;
     }
 
-    
+    // Generar la imagen del código de barras y guardarla en un archivo
+    public static function getCode($stringCode, $filePath)
+    {
+        if ($stringCode) {
+            $generator = new BarcodeGeneratorPNG();
+            $barcode = $generator->getBarcode($stringCode, $generator::TYPE_CODE_128);
 
+            file_put_contents($filePath, $barcode);
+        }
+    }
 }

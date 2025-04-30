@@ -13,6 +13,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/factura/subir', [FacturaController::class, 'mostrarFormulario'])->name('factura.subir');
 Route::post('/factura/procesar', [FacturaController::class, 'procesarExcel'])->name('factura.procesar');
+
 Route::get('/factura/plantilla', [FacturaController::class, 'descargarPlantilla'])->name('factura.plantilla');
-Route::get('/factura/descargar/{archivoFactura}', [FacturaController::class, 'vistaDescarga'])->name('factura.descargar');
+
+Route::get('/factura/descargar/{id}', [FacturaController::class, 'descargarFactura'])
+     ->name('factura.descargar');
+     
 Route::get('/factura/ver/{id}', [FacturaController::class, 'verFactura'])->name('factura.ver');
