@@ -19,17 +19,22 @@ class BarcodeController extends Controller
     // Formatear los datos para el contenido del código de barras
     public static function setDataFormat($data)
     {
-        $formatStringCode = self::COD_REFERENCIA .
-                            self::COD_EMPRESA .
-                            self::COD_RECAUDO .
-                            $data["documento"] .
-                            str_pad($data["consecutivo"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
-                            self::COD_PAGO .
-                            str_pad($data["total"], self::DIGITOS_VALOR_PAGO, "0", STR_PAD_LEFT) .
-                            self::COD_FECHA_RECAUDO .
-                            Carbon::now()->format('Ymd');
+        $codigoSinParentesis = '415' . self::COD_EMPRESA .
+                    '8020' . $data["documento"] .
+                    str_pad($data["consecutivo"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
+                    '3900' . str_pad($data["total"], self::DIGITOS_VALOR_PAGO, "0", STR_PAD_LEFT) .
+                    '96' . Carbon::now()->format('Ymd');
 
-        return $formatStringCode;
+        $codigoConParentesis = self::COD_REFERENCIA . self::COD_EMPRESA .
+                        self::COD_RECAUDO . $data["documento"] .
+                        str_pad($data["consecutivo"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
+                        self::COD_PAGO . str_pad($data["total"], self::DIGITOS_VALOR_PAGO, "0", STR_PAD_LEFT) .
+                        self::COD_FECHA_RECAUDO . Carbon::now()->format('Ymd');
+
+        return [
+            'codigo_barras' => $codigoSinParentesis,   // Solo números, para escáner
+            'codigo_texto' => $codigoConParentesis    // Con paréntesis, para mostrar
+        ];
     }
 
     // Generar la imagen del código de barras y guardarla en un archivo

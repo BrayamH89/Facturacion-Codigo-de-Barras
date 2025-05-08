@@ -38,94 +38,108 @@ class FacturaController extends Controller
             'archivo_excel' => 'required|file|mimes:xlsx,xls',
         ]);
 
+        $factura = Factura::all();
+
         try {
             $archivo = $request->file('archivo_excel');
-            $datos = Excel::toArray([], $archivo);
-            $filas = $datos[0];
+            $filas = Excel::toCollection(null, $archivo)->first();
 
-            unset($filas[0]); // Eliminar cabecera
+            unset($filas[0]); // Eliminar encabezados
 
             $archivosGenerados = [];
 
-            foreach ($filas as $index => $facturaData) {
+            foreach ($filas as $index => $fila) {
                 try {
-                    $factura = new Factura();
-                    $factura->numero_factura = $facturaData[0];
-                    $factura->matricula_profesional = intval($facturaData[1]);
-                    $factura->poliza_medica_semestral = intval($facturaData[2]);
-                    $factura->impuesto_procultura = intval($facturaData[3]);
-                    $factura->cantidad = intval($facturaData[4]);
-
-                    $subtotal = $factura->matricula_profesional * $factura->cantidad;
-                    $total = $subtotal + $factura->poliza_medica_semestral + $factura->impuesto_procultura;
-
-                    $factura->nombre_programas = $facturaData[5];
-                    $factura->responsable = $facturaData[6];
-                    $factura->identificacion = $facturaData[7];
-                    $factura->tipo_documento = $facturaData[8];
-                    $factura->consecutivo = $facturaData[9];
-
-                    // Validar y convertir fecha de Excel
-                    $fechaFactura = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($facturaData[10]);
-                    $fechaVencimiento = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($facturaData[11]);
-
-                    $factura->fecha_factura = $fechaFactura;
-                    $factura->fecha_vencimiento = $fechaVencimiento;
-
-                    // Generar código de barras
-                    $datosBarcode = [
-                        'documento' => $factura->identificacion,
-                        'consecutivo' => $factura->consecutivo,
-                        'total' => intval($total),
-                    ];
-                    $codigo = BarcodeController::setDataFormat($datosBarcode);
-
-                    $barcodeFileName = md5($codigo) . '.png';
-                    $barcodePath = public_path('storage/codigos/' . $barcodeFileName);
-                    if (!file_exists(dirname($barcodePath))) mkdir(dirname($barcodePath), 0755, true);
-
-                    BarcodeController::getCode($codigo, $barcodePath);
-
-                    $factura->codigo_barras = $codigo;
-                    $factura->save();
-
-                    // Convertir imagen de código a base64
-                    $barcodeBase64 = base64_encode(file_get_contents($barcodePath));
-                    $barcodeImage = 'data:image/png;base64,' . $barcodeBase64;
-
-                    // Logo
-                    $logoPath = storage_path('app/public/logos/logo_empresa.png');
-                    $logoBase64 = file_exists($logoPath)
-                        ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath))
-                        : null;
-
-                    // Generar PDF
-                    $pdf = Pdf::loadView('factura.pdf', [
-                        'factura' => $factura,
-                        'barcodeImage' => $barcodeImage,
-                        'logoBase64' => $logoBase64,
-                        'total' => $total,
-                        'subtotal' => $subtotal
-                    ]);
-
-                    $pdfPath = 'facturas/factura_' . $factura->id . '.pdf';
-                    Storage::disk('public')->put($pdfPath, $pdf->output());
+                    $factura = $this->procesarFila($fila);
 
                     $archivosGenerados[] = [
                         'factura_id' => $factura->id,
-                        'archivo' => $pdfPath
+                        'numero_factura' => $factura->numero_factura,
+                        'archivo' => 'facturas/factura_' . $factura->numero_factura . '.pdf'
                     ];
-
                 } catch (\Exception $e) {
-                    return redirect()->back()->with('error', "Error en la fila $index: " . $e->getMessage());
+                    return redirect()->back()->with('error', "Error en fila $index: " . $e->getMessage());
                 }
             }
 
-            return view('factura.descargar_factura', compact('archivosGenerados'));
+            // dd($factura);
+
+            // return response()->json(['mensaje', 'exito']);
+
+            return redirect()->route('Pdfs'); 
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al procesar el archivo: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error procesando el archivo: ' . $e->getMessage());
         }
+    }
+
+    private function procesarFila($fila)
+    {
+        $factura = new Factura();
+        $factura->numero_factura = $fila[0];
+        $factura->matricula_profesional = intval($fila[1]);
+        $factura->poliza_medica_semestral = intval($fila[2]);
+        $factura->impuesto_procultura = intval($fila[3]);
+        $factura->cantidad = intval($fila[4]);
+        $factura->nombre_programas = $fila[5];
+        $factura->responsable = $fila[6];
+        $factura->numero_id = $fila[7];
+        $factura->tipo_documento = $fila[8];
+        $factura->consecutivo = $fila[9];
+
+        $factura->fecha_factura = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fila[10]);
+        $factura->fecha_vencimiento = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fila[11]);
+
+        $subtotal = $factura->matricula_profesional * $factura->cantidad;
+        $total = $subtotal + $factura->poliza_medica_semestral + $factura->impuesto_procultura;
+
+        $datosBarcode = [
+            'documento' => $factura->identificacion,
+            'consecutivo' => $factura->consecutivo,
+            'total' => intval($total),
+        ];
+
+        // Generar los dos formatos del código
+        $codigoData = BarcodeController::setDataFormat($datosBarcode);
+        $codigoSinParentesis = $codigoData['codigo_barras'];
+        $codigoConParentesis = $codigoData['codigo_texto'];
+
+        // Código de barras
+        $barcodeFileName = md5($codigoSinParentesis) . '.png';
+        $barcodePath = storage_path('app/public/codigos/' . $barcodeFileName);
+        if (!file_exists(dirname($barcodePath))) {
+            mkdir(dirname($barcodePath), 0755, true);
+        }
+
+        BarcodeController::getCode($codigoSinParentesis, $barcodePath);
+        $factura->codigo_barras = $codigoSinParentesis;
+        $factura->codigo_texto = $codigoConParentesis;
+        $factura->save();
+
+        // PDF
+        $barcodeImage = 'data:image/png;base64,' . base64_encode(file_get_contents($barcodePath));
+
+        $logoPath = storage_path('app/public/logos/logo_empresa.png');
+        $logoBase64 = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : null;
+
+        $sloganPath = storage_path('app/public/logos/slogan.jpg');
+        $sloganBase64 = file_exists($sloganPath) ? 'data:image/jpg;base64,' . base64_encode(file_get_contents($sloganPath)) : null;
+
+        // Generar PDF
+        $pdf = Pdf::loadView('factura.pdf', [
+            'factura' => $factura,
+            'barcodeImage' => $barcodeImage,
+            'codigoTexto' => $codigoConParentesis,
+            'logoBase64' => $logoBase64,
+            'sloganBase64' => $sloganBase64,
+            'subtotal' => $subtotal,
+            'total' => $total
+        ]);
+
+        $pdfPath = 'facturas/factura_' . $factura->numero_factura . '.pdf';
+        Storage::disk('public')->put($pdfPath, $pdf->output());
+
+        return $factura;
     }
 
     public function descargarFactura($id)
@@ -144,7 +158,7 @@ class FacturaController extends Controller
         $factura = Factura::findOrFail($id);
         $barcodePath = 'storage/codigos/' . md5($factura->codigo_barras) . '.png';
 
-        // Si el código de barras no existe, lo regeneramos
+        // Regenerar si no existe
         if (!file_exists(public_path($barcodePath))) {
             BarcodeController::getCode($factura->codigo_barras, public_path($barcodePath));
         }
@@ -157,6 +171,25 @@ class FacturaController extends Controller
             ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath))
             : null;
 
-        return view('factura.pdf', compact('factura', 'barcodeImage', 'logoBase64'));
+        $sloganPath = storage_path('app/public/logos/slogan.jpg');
+        $sloganBase64 = file_exists($sloganPath)
+            ? 'data:image/jpg;base64,' . base64_encode(file_get_contents($sloganPath))
+            : null;
+
+        return view('factura.pdf', [
+            'factura' => $factura,
+            'barcodeImage' => $barcodeImage,
+            'codigoTexto' => $factura->codigo_texto, // Mostrar el texto con paréntesis
+            'logoBase64' => $logoBase64,
+            'sloganBase64' => $sloganBase64
+        ]);
+    }
+
+
+    public function mostrarPdfs()
+    {
+        $factura=Factura::all();
+
+        return view('factura.descargar_factura', compact('factura'));
     }
 }

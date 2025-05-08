@@ -36,9 +36,9 @@
                 <col class="col10">
                 <tbody>
                     <tr class="row0">
-                    <td class="column0 style23 null style23" colspan="3" rowspan="3">
-                        <img src="{{ $logoBase64 }}" style="width: 200px; height: auto; display: block; margin: 0 auto;" />
-                    </td>
+                        <td class="column0 style23 null style23" colspan="3" rowspan="3">
+                            <img src="{{ $logoBase64 }}" style="width: 200px; height: auto; display: block; margin-left: 50px;" />  
+                        </td>
                         <td class="column4">&nbsp;</td>
                         <td class="column5">&nbsp;</td>
                         <td class="column6">&nbsp;</td>
@@ -86,8 +86,8 @@
                         <td class="column1 style611 s text-center">AÑO</td>
                         <td class="column2 style611 s text-center">MES</td>
                         <td class="column3 style611 s text-center">DÍA</td>
-                        <td class="column5 style261 s" style="text-align: center;">DOCUMENTO:</td>
-                        <td class="column6 style481 s style481" colspan="3">{{ $factura->identificacion }}</td>
+                        <td class="column5 style261 s" style="text-align: center;">ID ESTUDIANTE:</td>
+                        <td class="column6 style481 s style481" colspan="3">{{ $factura->numero_id }}</td>
                         <td class="column9 style401 s style401" rowspan="3">{{ $factura->nombre_programas }}</td>
                         <td class="column10">&nbsp;</td>
                     </tr>
@@ -140,8 +140,8 @@
                     </tr>
                     <tr class="row13">
                         <td class="column0">&nbsp;</td>
-                        <td class="column1 style42 s style42" colspan="5">- Impuesto Procultura</td>
-                        <td class="column6 style22 s">${{ number_format($factura->impuesto_procultura, 0, ',', '.') }}</td>
+                        <td class="column1 style38 s style38" colspan="5">- Impuesto Procultura</td>
+                        <td class="column6 style21 s">${{ number_format($factura->impuesto_procultura, 0, ',', '.') }}</td>
                         <td class="column7 style21 null"></td>
                         <td class="column8 style21 s">1</td>
                         <td class="column9 style21 s">${{ number_format($factura->impuesto_procultura, 0, ',', '.') }}</td>
@@ -166,7 +166,13 @@
                     </tr>
                     <tr class="row18">
                         <td class="column0">&nbsp;</td>
-                        <td class="column1 style31 s style31" colspan="9">- Páguese en las entidades financieras indicadas en la parte inferior de la orden de pago</td>
+                        <td class="parrafo column1 style31 s style31" colspan="9">
+                            <p style="margin: 0 0 5px 0;">- Páguese en las entidades financieras indicadas en la parte inferior de la orden de pago (pdf).</p>
+                            <p style="margin: 0 0 5px 0;">- Tener en cuenta que el cobro se realiza con base a los créditos especificados.</p>
+                            <p style="margin: 0 0 5px 0;">- Si va a realizar pagos mixtos, debe acercarse a la sede Meléndez.</p>
+                            <p style="margin: 0 0 5px 0;">- Solo se aplicará este beneficio para quien esté en paz y salvo.</p>
+                            <p style="margin: 0;">- No aplican apoyos, beneficios o becas.</p>
+                        </td>
                         <td class="column10">&nbsp;</td>
                     </tr>
                     <tr class="row19">
@@ -187,8 +193,8 @@
                         <td class="column1">&nbsp;</td>
                         <td class="column2 style11 s"></td>
                         <td class="column3 style27 s style27" colspan="2"></td>
-                        <td class="column5 style12 s">IDENTIFICACIÓN:</td>
-                        <td class="column6 style33 s style33" colspan="4">{{ $factura->identificacion }} </td>
+                        <td class="column5 style12 s">ID ESTUDIANTE:</td>
+                        <td class="column6 style33 s style33" colspan="4">{{ $factura->numero_id }} </td>
                         <td class="column10">&nbsp;</td>
                     </tr>
                     <tr class="row24">
@@ -206,7 +212,7 @@
                     </tr>
                     <tr class="row25">
                         <td class="column0">&nbsp;</td>
-                        <td class="column1 style60 s style60" colspan="9">RREALICE EL PAGO EN BANCO DE BOGOTÁ, COOPERATIVA MINUTO DE DIOS, OFICINAS GANE, SEDE MELÉNDEZ</td>
+                        <td class="column1 style60 s style60" colspan="9">REALICE EL PAGO EN BANCO DE BOGOTÁ, COOPERATIVA MINUTO DE DIOS, OFICINAS GANE, SEDE MELÉNDEZ</td>
                         <td class="column10">&nbsp;</td>
                     </tr>
                     <tr class="row27">
@@ -255,20 +261,20 @@
                         <td class="column2 " colspan="2"></td>
                         <td class="column4"></td>
                         <td class="column5">&nbsp;</td>
-                        <td class="column6 style23 null style23" colspan="3" rowspan="6">
-                                <div class="text-center" style="width: 300px; height: 200px ; display: flex; align-items: center">
-                                    <!--REALIZAR CONSIGNACIÓN EN EL BANCO DE BOGOTA EN ESTA CUENTA 249031790-->
-                                </div></td>
+                        <td class="column10 style23 null style23" colspan="3" rowspan="3" style="position: relative;">
+                            <img src="{{ $sloganBase64 }}" style="width: 325px; height: auto; position: absolute; top: 0; left: -10px;">
+                        </td>
                         <td class="column10">&nbsp;</td>
                     </tr>
-                    {{-- <tr class="row33">
+                    <tr class="row33">
                         <td class="column0">&nbsp;</td>
                         <td class="column1">&nbsp;</td>
                         <td class="column2">&nbsp;</td>
                         <td class="column3">&nbsp;</td>
                         <td class="column4">&nbsp;</td>
                         <td class="column5">&nbsp;</td>
-                        <td class="column10">&nbsp;</td> --}}
+                        <td class="column10">&nbsp;</td>
+                    </tr>
                     <tr class="row34">
                         <td class="column0">&nbsp;</td>
                         <td class="column1 style46 s style46" colspan="4">VALOR</td>
@@ -306,8 +312,7 @@
                         <td class="column1" colspan="9" rowspan="7" style="text-align: center; vertical-align: middle;">
                             <img src="{{ $barcodeImage }}" style="width: 50%; height: 100px; display: block; margin: 0 auto;">
                             <br>
-                            <span style="font-size: 14px;">{{ $factura->codigo_barras }}</span>
-                        </td>
+                            <span style="font-size: 14px;">{{ $factura->codigo_texto }}</span>
                         </td>
                         <td class="column10">&nbsp;</td>
                     </tr>
@@ -666,6 +671,11 @@ th.style261 {
     font-size: 10pt;
     background-color: #8EAADB
 }
+
+/* td.parrafo{
+    display: flex;
+    margin-bottom: 5px;
+} */
 
 td.style481 {
     vertical-align: middle;

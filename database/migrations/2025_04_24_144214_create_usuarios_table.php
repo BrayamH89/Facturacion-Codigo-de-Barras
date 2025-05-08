@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('numero_documento', 15);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password'); // Longitud suficiente para bcrypt (255 por defecto)
             $table->rememberToken();
             $table->timestamps();
         });
