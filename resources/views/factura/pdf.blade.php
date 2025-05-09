@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="stylesheet" href="{{ asset('resources/css/recibo/estilos.css') }}">
     <script src="{{ asset('lib/html2pdf.bundle.min.js') }}"></script>
     <script src="{{ asset('lib/JsBarcode.all.min.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
@@ -76,8 +75,8 @@
                         <td class="column0">&nbsp;</td>
                         <td class="column1 style505 s style505" colspan="3" style="text-align: center;">FECHA DE EXPEDICIÓN</td>
                         <td class="column4 style505 s style505" rowspan="2" style="text-align: center;"></td>
-                        <td class="column5 style261 s" style="text-align: center;">TIPO DOCUMENTO:</td>
-                        <td class="column6 style481 s style481" colspan="3">{{ $factura->tipo_documento  }}</td>
+                        <td class="column5 style261 s" style="text-align: center;">ID ESTUDIANTE:</td>
+                        <td class="column6 style481 s style481" colspan="3">{{ $factura->numero_id }}</td>
                         <td class="column9 style241 s" style="text-align: center;">PROGRAMA ACADEMICO</td>
                         <td class="column10">&nbsp;</td>
                     </tr>
@@ -86,8 +85,8 @@
                         <td class="column1 style611 s text-center">AÑO</td>
                         <td class="column2 style611 s text-center">MES</td>
                         <td class="column3 style611 s text-center">DÍA</td>
-                        <td class="column5 style261 s" style="text-align: center;">ID ESTUDIANTE:</td>
-                        <td class="column6 style481 s style481" colspan="3">{{ $factura->numero_id }}</td>
+                        <td class="column5 style261 s" style="text-align: center;">CC:</td>
+                        <td class="column6 style481 s style481" colspan="3">{{ $factura->numero_cedula }}</td>
                         <td class="column9 style401 s style401" rowspan="3">{{ $factura->nombre_programas }}</td>
                         <td class="column10">&nbsp;</td>
                     </tr>
@@ -190,11 +189,10 @@
                     </tr>
                     <tr class="row23">
                         <td class="column0">&nbsp;</td>
-                        <td class="column1">&nbsp;</td>
-                        <td class="column2 style11 s"></td>
-                        <td class="column3 style27 s style27" colspan="2"></td>
-                        <td class="column5 style12 s">ID ESTUDIANTE:</td>
-                        <td class="column6 style33 s style33" colspan="4">{{ $factura->numero_id }} </td>
+                        <td class="column1 style32 s style32" colspan="2">ID ESTUDIANTE:</td>
+                        <td class="column3 style27 s style27" colspan="2">{{  $factura->numero_id }}</td>
+                        <td class="column5 style12 s">CC:</td>
+                        <td class="column6 style33 s style33" colspan="4">{{ $factura->numero_cedula }} </td>
                         <td class="column10">&nbsp;</td>
                     </tr>
                     <tr class="row24">

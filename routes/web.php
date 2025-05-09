@@ -10,7 +10,7 @@ Route::get('/', function () {
      return view('auth.login');
 })->name('login.usuarios');
 
-Route::post('/login', [authController::class, 'login'])->name('login.usuarios');
+Route::post('/login', [authController::class, 'login'])->name('login.procesar');
 
 Route::get('/register', [authController::class, 'registro'])->name('register.usuarios');
 Route::post('/register', [authController::class, 'register']);
@@ -38,4 +38,4 @@ Route::get('/usuarios', [authController::class, 'traerUsuarios'])->name('listar.
 
 Route::get('/descargar/plantilla', [FacturaController::class, 'descargarPlantilla'])->name('plantilla.descargar');
 
-Route::get('/logout',[authController::class, 'logout'])->name('logout');
+Route::get('/logout', [authController::class, 'logout'])->name('logout');

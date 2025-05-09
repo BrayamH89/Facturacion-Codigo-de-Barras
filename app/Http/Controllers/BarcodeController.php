@@ -20,14 +20,14 @@ class BarcodeController extends Controller
     public static function setDataFormat($data)
     {
         $codigoSinParentesis = '415' . self::COD_EMPRESA .
-                    '8020' . $data["documento"] .
-                    str_pad($data["consecutivo"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
+                    '8020' . $data["id"] .
+                    str_pad($data["numero_factura"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
                     '3900' . str_pad($data["total"], self::DIGITOS_VALOR_PAGO, "0", STR_PAD_LEFT) .
                     '96' . Carbon::now()->format('Ymd');
 
         $codigoConParentesis = self::COD_REFERENCIA . self::COD_EMPRESA .
-                        self::COD_RECAUDO . $data["documento"] .
-                        str_pad($data["consecutivo"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
+                        self::COD_RECAUDO . $data["id"] .
+                        str_pad($data["numero_factura"], self::DIGITOS_ORDEN_PAGO, "0", STR_PAD_LEFT) .
                         self::COD_PAGO . str_pad($data["total"], self::DIGITOS_VALOR_PAGO, "0", STR_PAD_LEFT) .
                         self::COD_FECHA_RECAUDO . Carbon::now()->format('Ymd');
 

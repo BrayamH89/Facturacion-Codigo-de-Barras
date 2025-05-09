@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/tablaUsuarios.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/descargarPDF.css') }}">
     <link rel="stylesheet" href="{{ asset('js/dashboard.js') }}">
     
 </head>
@@ -40,7 +40,7 @@
                         <td>
                             <div class= "btn-descargar">
                                  <a href="{{ asset('storage/facturas/factura_' . $item['numero_factura'] . '.pdf') }}" class="btn btn-success mt-3 w-100" download>
-                                    📄 Descargar PDF
+                                    Descargar PDF <i class="fa-solid fa-file-pdf"></i>
                                 </a> 
                             </div>
                         </td>
@@ -62,28 +62,25 @@
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        new DataTable('#tb_pdf', {
-            scrollX: true,
-            language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                
-            },
-            columnDefs: [
-                {orderable: false, targets:[3]}
-            ],
-        });
-
         $(document).ready(function() {
             $('#tb_pdf').DataTable({
-                columnDefs: [
-                    { 
-                        type: 'date-euro', 
-                        targets: 0 // Columna de fecha
-                    }
-                ],
-                order: [[0, 'desc']] // Ordenar por fecha más reciente primero
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
             });
         });
+
+        // $(document).ready(function() {
+        //     $('#tb_pdf').DataTable({
+        //         columnDefs: [
+        //             { 
+        //                 type: 'date-euro', 
+        //                 targets: 0 // Columna de fecha
+        //             }
+        //         ],
+        //         order: [[0, 'desc']] // Ordenar por fecha más reciente primero
+        //     });
+        // });
     </script>
     
 

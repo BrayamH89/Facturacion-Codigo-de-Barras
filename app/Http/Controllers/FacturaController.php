@@ -22,7 +22,7 @@ class FacturaController extends Controller
     //Controlador de la vista para descargar plantilla excel
     public function descargarPlantilla()
     {
-        $plantillaPath = public_path('plantillas/plantilla_factura.xlsx');
+        $plantillaPath = public_path('plantilla/plantilla_factura_excel.xlsx');
 
         if (file_exists($plantillaPath)) {
             return response()->download($plantillaPath);
@@ -84,18 +84,17 @@ class FacturaController extends Controller
         $factura->nombre_programas = $fila[5];
         $factura->responsable = $fila[6];
         $factura->numero_id = $fila[7];
-        $factura->tipo_documento = $fila[8];
-        $factura->consecutivo = $fila[9];
+        $factura->numero_cedula = $fila[8];
 
-        $factura->fecha_factura = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fila[10]);
-        $factura->fecha_vencimiento = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fila[11]);
+        $factura->fecha_factura = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fila[9]);
+        $factura->fecha_vencimiento = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($fila[10]);
 
         $subtotal = $factura->matricula_profesional * $factura->cantidad;
         $total = $subtotal + $factura->poliza_medica_semestral + $factura->impuesto_procultura;
 
         $datosBarcode = [
-            'documento' => $factura->identificacion,
-            'consecutivo' => $factura->consecutivo,
+            'id' => $factura->numero_id,
+            'numero_factura' => $factura->numero_factura,
             'total' => intval($total),
         ];
 

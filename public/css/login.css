@@ -1,0 +1,107 @@
+
+  .formulario{
+    /* background-image: url(https://th.bing.com/th/id/R.e71dad9835dc81e9c631736fcb31063a?rik=hw91lp9QCKB9kw&pid=ImgRaw&r=0);
+    background-image: url(/storage/app/public/Logos/Fondo.png); */
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+  }
+
+  /* Estilo general del contenedor */
+  .contenedor-sesion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column;
+  }
+  
+  /* Estilo del formulario */
+  .form_wrapper {
+    padding: 30px;
+    border-radius: 10px;
+    background-color:rgba(255, 255, 255, 0.493);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Texto de bienvenida */
+  .form_details {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  /* Estilos de los inputs */
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  /* Botón de inicio de sesión */
+  .btn_sesion{
+    width: 100%;
+    padding: 10px;
+    background: #15AEBF;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn_sesion:hover {
+    color: #fff;
+    background: #0f3b53e8;
+  }
+  
+  /* Enlace para recuperar contraseña */
+  a {
+    display: block;
+    margin-top: 10px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Mensajes de error */
+  .alert-danger {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para el texto de registro */
+  .switch {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    font-size: 0.9rem;
+  }
+  
+  /* Adaptabilidad para móviles */
+  @media (max-width: 480px) {
+    .form_wrapper {
+      padding: 20px;
+    }
+    .form_details {
+      font-size: 1.3rem;
+    }
+    .btn {
+      font-size: 1rem;
+    }
+  }
+  
