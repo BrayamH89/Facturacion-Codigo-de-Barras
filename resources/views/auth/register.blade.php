@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="card-body px-5 py-4">
-                        <form method="POST" action="{{ route('register.usuarios') }}">
+                        <form method="POST" action="{{ route('register.usuario') }}">
                             @csrf
 
                             <!-- Nombre Completo -->

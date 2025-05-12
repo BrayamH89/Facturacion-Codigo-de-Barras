@@ -22,7 +22,7 @@ class FacturaController extends Controller
     //Controlador de la vista para descargar plantilla excel
     public function descargarPlantilla()
     {
-        $plantillaPath = public_path('plantilla/plantilla_factura_excel.xlsx');
+        $plantillaPath = public_path('plantilla/plantilla_factura.xlsx');
 
         if (file_exists($plantillaPath)) {
             return response()->download($plantillaPath);

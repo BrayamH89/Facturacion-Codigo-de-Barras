@@ -17,7 +17,7 @@
     <body class="formulario" style="background-image: url('{{ asset('storage/logos/Fondo.png') }}')">
         <div class="contenedor-sesion">
             <div class="form_wrapper">
-                <form action="{{ route('login.usuarios') }}" method="POST" class="form_front">
+                <form action="{{ route('login.procesar') }}" method="POST" class="form_front">
                     @csrf
 
                     <h1 class="form_details"> Iniciar Sesión</h1>
